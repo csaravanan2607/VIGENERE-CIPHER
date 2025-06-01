@@ -1,10 +1,5 @@
 # VIGENERE-CIPHER
-## EX. NO: 4
- 
-
 ## IMPLEMETATION OF VIGENERE CIPHER
- 
-
 ## AIM:
 
 To implement the Vigenere Cipher substitution technique using C program.
@@ -19,18 +14,77 @@ alphabet shifted cyclically to the left compared to the previous alphabet, corre
 
 ## ALGORITHM:
 
-STEP-1: Arrange the alphabets in row and column of a 26*26 matrix.
-STEP-2: Circulate the alphabets in each row to position left such that the first letter is attached to last.
-STEP-3: Repeat this process for all 26 rows and construct the final key matrix.
-STEP-4: The keyword and the plain text is read from the user.
-STEP-5: The characters in the keyword are repeated sequentially so as to match with that of the plain text.
-STEP-6: Pick the first letter of the plain text and that of the keyword as the row indices and column indices respectively.
-STEP-7: The junction character where these two meet forms the cipher character.
-STEP-8: Repeat the above steps to generate the entire cipher text.
+### STEP-1: Arrange the alphabets in row and column of a 26*26 matrix.
+### STEP-2: Circulate the alphabets in each row to position left such that the first letter is attached to last.
+### STEP-3: Repeat this process for all 26 rows and construct the final key matrix.
+### STEP-4: The keyword and the plain text is read from the user.
+### STEP-5: The characters in the keyword are repeated sequentially so as to match with that of the plain text.
+### STEP-6: Pick the first letter of the plain text and that of the keyword as the row indices and column indices respectively.
+### STEP-7: The junction character where these two meet forms the cipher character.
+### STEP-8: Repeat the above steps to generate the entire cipher text.
 
 
-## PROGRAM
+## PROGRAM:
+```
+def generate_key(text, key):
+   
+    key = list(key)
+    if len(key) == len(text):
+        return "".join(key)
+    else:
+        for i in range(len(text) - len(key)):
+            key.append(key[i % len(key)])
+    return "".join(key)
 
-## OUTPUT
 
-## RESULT
+def vigenere_encrypt(plain_text, key):
+    
+    encrypted_text = []
+    key = generate_key(plain_text, key)
+    for i in range(len(plain_text)):
+        if plain_text[i].isalpha():
+            shift = ord(key[i].upper()) - ord('A')
+            if plain_text[i].isupper():
+                encrypted_text.append(chr((ord(plain_text[i]) + shift - ord('A')) % 26 + ord('A')))
+            else:
+                encrypted_text.append(chr((ord(plain_text[i]) + shift - ord('a')) % 26 + ord('a')))
+        else:
+            encrypted_text.append(plain_text[i])
+    return "".join(encrypted_text)
+
+def vigenere_decrypt(cipher_text, key):
+    
+    decrypted_text = []
+    key = generate_key(cipher_text, key)
+    for i in range(len(cipher_text)):
+        if cipher_text[i].isalpha():
+            shift = ord(key[i].upper()) - ord('A')
+            if cipher_text[i].isupper():
+                decrypted_text.append(chr((ord(cipher_text[i]) - shift - ord('A')) % 26 + ord('A')))
+            else:
+                decrypted_text.append(chr((ord(cipher_text[i]) - shift - ord('a')) % 26 + ord('a')))
+        else:
+            decrypted_text.append(cipher_text[i])
+    return "".join(decrypted_text)
+```
+
+# Example Usage
+
+plaintext = input("Enter the plaintext: ")
+
+key = input("Enter the key: ")
+
+encrypted = vigenere_encrypt(plaintext, key)
+
+decrypted = vigenere_decrypt(encrypted, key)
+
+print(f"Encrypted: {encrypted}")
+
+print(f"Decrypted: {decrypted}")
+
+## OUTPUT:
+
+![Screenshot 2025-03-27 090529](https://github.com/user-attachments/assets/9c989dbb-2857-4b85-a7ec-f226a0293c50)
+
+## RESULT:
+The code executed successfully!
