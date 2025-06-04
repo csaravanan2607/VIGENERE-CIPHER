@@ -26,65 +26,57 @@ alphabet shifted cyclically to the left compared to the previous alphabet, corre
 
 ## PROGRAM:
 ```
-def generate_key(text, key):
-   
-    key = list(key)
-    if len(key) == len(text):
-        return "".join(key)
-    else:
-        for i in range(len(text) - len(key)):
-            key.append(key[i % len(key)])
-    return "".join(key)
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+void vigenere_encrypt(char *msg, char *key, char *enc) {
+    int msgLen = strlen(msg), keyLen = strlen(key);
+    for (int i = 0, j = 0; i < msgLen; i++) {
+        if (isalpha(msg[i])) {
+            enc[i] = ((toupper(msg[i]) - 'A' + toupper(key[j % keyLen]) - 'A') % 26) + 'A';
+            j++;
+        } else {
+            enc[i] = msg[i];
+        }
+    }
+    enc[msgLen] = '\0';
+}
 
-def vigenere_encrypt(plain_text, key):
+void vigenere_decrypt(char *enc, char *key, char *dec) {
+    int encLen = strlen(enc), keyLen = strlen(key);
+    for (int i = 0, j = 0; i < encLen; i++) {
+        if (isalpha(enc[i])) {
+            dec[i] = ((toupper(enc[i]) - 'A' - (toupper(key[j % keyLen]) - 'A') + 26) % 26) + 'A';
+            j++;
+        } else {
+            dec[i] = enc[i];
+        }
+    }
+    dec[encLen] = '\0';
+}
+
+int main() {
+    char msg[1000], key[100];
+    char enc[1000], dec[1000];
     
-    encrypted_text = []
-    key = generate_key(plain_text, key)
-    for i in range(len(plain_text)):
-        if plain_text[i].isalpha():
-            shift = ord(key[i].upper()) - ord('A')
-            if plain_text[i].isupper():
-                encrypted_text.append(chr((ord(plain_text[i]) + shift - ord('A')) % 26 + ord('A')))
-            else:
-                encrypted_text.append(chr((ord(plain_text[i]) + shift - ord('a')) % 26 + ord('a')))
-        else:
-            encrypted_text.append(plain_text[i])
-    return "".join(encrypted_text)
-
-def vigenere_decrypt(cipher_text, key):
+    printf("Simulation of Vigenere Cipher\n");
+    printf("Enter the message: ");
+    scanf(" %s", msg);
+    printf("Enter the key: ");
+    scanf(" %s", key);
     
-    decrypted_text = []
-    key = generate_key(cipher_text, key)
-    for i in range(len(cipher_text)):
-        if cipher_text[i].isalpha():
-            shift = ord(key[i].upper()) - ord('A')
-            if cipher_text[i].isupper():
-                decrypted_text.append(chr((ord(cipher_text[i]) - shift - ord('A')) % 26 + ord('A')))
-            else:
-                decrypted_text.append(chr((ord(cipher_text[i]) - shift - ord('a')) % 26 + ord('a')))
-        else:
-            decrypted_text.append(cipher_text[i])
-    return "".join(decrypted_text)
+    vigenere_encrypt(msg, key, enc);
+    printf("Encrypted Message: %s\n", enc);
+    
+    vigenere_decrypt(enc, key, dec);
+    printf("Decrypted Message: %s\n", dec);
+    
+    return 0;
+}
 ```
-
-# Example Usage
-
-plaintext = input("Enter the plaintext: ")
-
-key = input("Enter the key: ")
-
-encrypted = vigenere_encrypt(plaintext, key)
-
-decrypted = vigenere_decrypt(encrypted, key)
-
-print(f"Encrypted: {encrypted}")
-
-print(f"Decrypted: {decrypted}")
-
 ## OUTPUT:
-
-![Screenshot 2025-03-27 090529](https://github.com/user-attachments/assets/9c989dbb-2857-4b85-a7ec-f226a0293c50)
+![Vigenere cipher ](https://github.com/user-attachments/assets/d4547efd-20ae-41c3-8b69-cb61b94a9253)
 
 ## RESULT:
 The code executed successfully!
