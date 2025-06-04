@@ -79,4 +79,4 @@ int main() {
 ![Vigenere cipher ](https://github.com/user-attachments/assets/d4547efd-20ae-41c3-8b69-cb61b94a9253)
 
 ## RESULT:
-The code executed successfully!
+The code executed successfully.
